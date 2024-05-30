@@ -45,12 +45,12 @@ def generar_solicitud_arriendo(request, id):
     inmueble = get_object_or_404(Inmueble, pk=id)
     
     # Verificar si el usuario está autenticado y es un arrendatario
-    if request.user.is_authenticated and request.user.usuario.tipo_usuario == 'arrendatario':
+    if request.user.is_authenticated and request.user.tipo_usuario == 'arrendatario':
         if request.method == 'POST':
             form = SolicitudArriendoForm(request.POST)
             if form.is_valid():
                 solicitud = form.save(commit=False)
-                solicitud.arrendatario = request.user.usuario  # Asignar el usuario arrendatario
+                solicitud.arrendatario = request.user  # Asignar el usuario arrendatario
                 solicitud.inmueble = inmueble
                 solicitud.save()
                 return redirect('detalle', id=inmueble.id)
@@ -115,8 +115,8 @@ def eliminar_inmueble(request, id):
 
 @login_required
 def dashboard(request):
-    if request.user.usuario.tipo_usuario == 'arrendatario':
-        solicitudes = SolicitudArriendo.objects.filter(arrendatario=request.user.usuario)
+    if request.user.tipo_usuario == 'arrendatario':
+        solicitudes = SolicitudArriendo.objects.filter(arrendatario=request.user)
         regiones = Region.objects.all()
         comunas = Comuna.objects.all()
         region_id = request.GET.get('region')
@@ -129,11 +129,11 @@ def dashboard(request):
         
         return render(request, 'dashboard_arrendatario.html', {'solicitudes': solicitudes, 'regiones': regiones, 'comunas': comunas, 'inmuebles': inmuebles})
     
-    elif request.user.usuario.tipo_usuario == 'arrendador':
+    elif request.user.tipo_usuario == 'arrendador':
         # Obtener las solicitudes recibidas por el arrendador
-        solicitudes_recibidas = SolicitudArriendo.objects.filter(inmueble__propietario=request.user.usuario)
+        solicitudes_recibidas = SolicitudArriendo.objects.filter(inmueble__propietario=request.user)
         # Obtener los inmuebles del arrendador
-        inmuebles = Inmueble.objects.filter(propietario=request.user.usuario)
+        inmuebles = Inmueble.objects.filter(propietario=request.user)
         return render(request, 'dashboard_arrendador.html', {'solicitudes_recibidas': solicitudes_recibidas, 'inmuebles': inmuebles})
 
 
@@ -147,5 +147,16 @@ def actualizar_usuario(request):
             messages.success(request, '¡Los datos del usuario han sido actualizados!')
             return redirect('dashboard') 
     else:
-        form = CustomUserChangeForm(instance=request.user.usuario)
+        form = CustomUserChangeForm(instance=request.user)
     return render(request, 'perfil.html', {'form': form})
+
+
+@login_required
+def cambiar_estado_solicitud(request, solicitud_id):
+    solicitud = get_object_or_404(SolicitudArriendo, pk=solicitud_id)
+    if solicitud.inmueble.propietario == request.user:
+        if request.method == 'POST':
+            nuevo_estado = request.POST.get('nuevo_estado')
+            solicitud.estado = nuevo_estado
+            solicitud.save()
+    return redirect('dashboard')

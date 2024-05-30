@@ -33,6 +33,6 @@ urlpatterns = [
     path('solicitudes/', solicitudes_arrendador, name='solicitudes_arrendador'),
     path('dashboard/', dashboard, name='dashboard'),
     path('perfil/', actualizar_usuario, name='actualizar_usuario'),
-    # path('cambiar_estado_solicitud/<int:solicitud_id>/', cambiar_estado_solicitud, name='cambiar_estado_solicitud'),
+    path('cambiar_estado_solicitud/<int:solicitud_id>/', cambiar_estado_solicitud, name='cambiar_estado_solicitud'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

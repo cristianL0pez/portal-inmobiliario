@@ -15,8 +15,7 @@
             <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
             <li><a href="#"><i class="fab fa-instagram"></i></a></li>
               {%   if user.is_authenticated %}
-                <p class="d-inline">bienvenido {{ user.username }}</p>
-                <a class="nav-link d-inline" href="{% url 'actualizar_usuario' %}">Perfil</a>           
+                <p class="d-inline">bienvenido {{ user.username }}</p>        
                 <form action="{% url 'logout' %}" method="post">
                   {% csrf_token %}
                   <button data-mdb-ripple-init type="submit" class="btn btn-outline">
@@ -40,18 +39,26 @@
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
+                    <a href="{% url 'home' %}" class="logo">
                         <h2>Portal Inmobiliario</h2>
                     </a>
                     <!-- ***** Logo End ***** -->
-                    <!-- ***** Menu Start ***** -->
-                    <ul class="nav">
-                      <li><a href="index.html" class="active">Home</a></li>
-                      <li><a href="properties.html">Properties</a></li>
-                      <li><a href="property-details.html">Property Details</a></li>
+                    <!-- ***** Menu Start ***** -->                    
+                    <ul class="nav">        
+                      <li><a class="nav-link d-inline" href="{% url 'home' %}">Home</a></li>
+                      <li><a class="nav-link d-inline" href="{% url 'dashboard' %}">Dashboard</a></li>
+                      <li><a class="nav-link d-inline" href="{% url 'actualizar_usuario' %}">Perfil</a></li>
+                      
+                      {% if user.is_authenticated and user.tipo_usuario == 'arrendador' %}
+                      <li><a class="nav-link d-inline" href="{% url 'alta_inmueble' %}">Crear inmueble</a></li>
+                      
+
+
+                      {% endif %}
+                      {% comment %} <li><a href="property-details.html">Property Details</a></li>
                       <li><a href="contact.html">Contact Us</a></li>
                       <li><a href="#"><i class="fa fa-calendar"></i> Schedule a visit</a></li>
-                  </ul>   
+                  </ul>    {% endcomment %}
                     <a class='menu-trigger'>
                         <span>Menu</span>
                     </a>
@@ -61,4 +68,8 @@
         </div>
     </div>
   </header>
+
+
+
+  
   <!-- ***** Header Area End ***** -->
