@@ -1,9 +1,8 @@
-# Dev environment
-pip
-autopep8
-
-# App
 asgiref==3.7.2
+autopep8==2.1.1
 Django==5.0
+pillow==10.3.0
+pycodestyle==2.11.1
+python-dotenv==1.0.1
 sqlparse==0.4.4
 typing_extensions==4.9.0

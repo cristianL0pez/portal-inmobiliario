@@ -34,7 +34,7 @@ def registro_usuario(request):
             usuario_autenticado = authenticate(username=usuario.username, password=password)
             if usuario_autenticado is not None:
                 login(request, usuario_autenticado)
-                return redirect('index')  
+                return redirect('home')  
     else:
         form = RegistroUsuarioForm()
     return render(request, 'registro_usuario.html', {'form': form})
