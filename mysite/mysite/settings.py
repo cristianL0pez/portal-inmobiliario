@@ -29,8 +29,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','https://8000-idx-portal-inmobiliario-1716507814956.cluster-vpxjqdstfzgs6qeiaf7rdlsqrc.cloudworkstations.dev/']
-CSRF_TRUSTED_ORIGINS = ['https://8000-idx-portal-inmobiliario-1716507814956.cluster-vpxjqdstfzgs6qeiaf7rdlsqrc.cloudworkstations.dev']
+ALLOWED_HOSTS = ['*','https://8000-idx-portal-inmobiliario-1716507814956.cluster-vpxjqdstfzgs6qeiaf7rdlsqrc.cloudworkstations.dev/','portal-inmobiliario.onrender.com']
+# Suggested code may be subject to a license. Learn more: ~LicenseLog:2163619208.
+CSRF_TRUSTED_ORIGINS = ['https://8000-idx-portal-inmobiliario-1716507814956.cluster-vpxjqdstfzgs6qeiaf7rdlsqrc.cloudworkstations.dev', 'https://portal-inmobiliario.onrender.com']
 
 AUTH_USER_MODEL = 'web.Usuario'
 
